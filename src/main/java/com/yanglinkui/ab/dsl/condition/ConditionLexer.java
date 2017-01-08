@@ -12,20 +12,6 @@ public class ConditionLexer extends Lexer {
         super(input);
     }
 
-    public void consume() {
-        p++;
-        if (p >= input.length()) c = EOF;
-        else c = input.charAt(p);
-    }
-
-    public void match(char x) {
-        if (c == x) {
-            consume();
-        } else {
-            throw new Error("Expecting " + x + "; found " + c);
-        }
-    }
-
     public Token nextToken() {
         while ( c!=EOF ) {
             switch ( c ) {
@@ -43,6 +29,7 @@ public class ConditionLexer extends Lexer {
                 case '&':
                 case '|':
                     return BOOL();
+                case '\"':
                 case '\'':
                     return STRING();
                 default:

@@ -17,7 +17,6 @@ condition 解析器
 
 * 使用
 ```java
-//从request里面获得表达式
 //如果想代表所有的条件通杀，那么就是 * 就可以了
 //String condition = "*";
 String condition = "mod(user.id)>500 && (client.ip='192.168.10.1' || client.browser!=['safari'])"
@@ -46,6 +45,33 @@ try {
             return "501";
         }
     })
+} catch (Error e) {
+    throw new Error("解析出错了", e);
+}
+
+```
+
+
+action 解析器(太简单了)
+=============
+
+* 使用
+```java
+//假如表达式是 header("x-service"="s1.version>2.1,s2.status='test',s3.ip=['192.168.10.1','192.168.10.2']"), param('isUser'='true')
+
+try {
+    //解析
+    ActionParser parser = new ActionParser(new ActionLexer("header(\"x-service\"=\"s1.version>2.1,s2.status='test',s3.ip=['192.168.10.1','192.168.10.2']\"),param('isUser'='true')"));
+    List<Action> list = parser.actionList();
+    for (Action action : list) {
+        if (action.getId.equals("header")) {
+            request.addHeader(action.getKey(), action.getValue());
+        } else if (action.getId.equals("param")) {
+            url = url + "&" + action.getKey + "=" + action.getValue();
+        }
+    }
+
+
 } catch (Error e) {
     throw new Error("解析出错了", e);
 }
