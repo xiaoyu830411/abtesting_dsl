@@ -3,8 +3,8 @@
 
 主要是定义一些ab testing表达式的一些语法，这个项目包括三部分：
 * condition 前置条件解析(例如 client.ip=['192.168.10.2'] || user.id=['876'])。
-* action 当满足前置条件后，要做的动作(header(x_service='s1.version=5.1'))，这个值一般都要和后面service的配对使用。
-* service 解析abtesting传过来的表达式（一般和action内容配对）(s1.version=5.1')。
+* action 当满足前置条件后，要做的动作(header('x_service'='s1.version=5.1'))，这个值一般都要和后面service的配对使用。
+* service 解析abtesting传过来的表达式（一般和action内容配对）(s1.version=5.1)。
 
 
 condition 解析器
