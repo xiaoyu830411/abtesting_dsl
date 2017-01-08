@@ -1,6 +1,7 @@
 package com.yanglinkui.ab.dsl.condition;
 
 import com.yanglinkui.ab.dsl.*;
+import com.yanglinkui.ab.dsl.Number;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class ConditionParser extends Parser {
         return _statements();
     }
 
-    private Statements _statements() {
+    Statements _statements() {
         Statements s = new Statements();
 
         Expression left = null;
@@ -66,7 +67,7 @@ public class ConditionParser extends Parser {
         return s;
     }
 
-    public Star star() {
+    Star star() {
         if (LA(1) == ConditionToken.TOKEN_STAR) {
             if (LA(2) != ConditionToken.TOKEN_EOF) {
                 throw new Error("* must be just one ");
@@ -79,7 +80,7 @@ public class ConditionParser extends Parser {
         return null;
     }
 
-    public Expression brack() {
+    Expression brack() {
         Expression expression = null;
 
         if (LA(1) == ConditionToken.TOKEN_LBRACK) {
@@ -91,8 +92,7 @@ public class ConditionParser extends Parser {
         return expression;
     }
 
-    /** expression: function | name = list  */
-    public Expression expression() {
+    Expression expression() {
         Variable var = null;
         if (LA(1) == ConditionToken.TOKEN_NAME && LA(2) == ConditionToken.TOKEN_LBRACK) {
             var = function();
@@ -111,7 +111,6 @@ public class ConditionParser extends Parser {
         return operation;
     }
 
-    /** function: name'('')' | name'('name')' */
     public Function function() {
         if (LA(1) == ConditionToken.TOKEN_NAME && LA(2) == ConditionToken.TOKEN_LBRACK) {
             Token name = match(ConditionToken.TOKEN_NAME);
@@ -192,7 +191,7 @@ public class ConditionParser extends Parser {
     Value element() {
         if (LA(1) == ConditionToken.TOKEN_NUMBER) {
             Token t = match(ConditionToken.TOKEN_NUMBER);
-            return new com.yanglinkui.ab.dsl.Number(new BigDecimal(t.getText()));
+            return new Number(new BigDecimal(t.getText()));
         } else {
             Token t = match(ConditionToken.TOKEN_STRING);
             return new MyString(t.getText());
