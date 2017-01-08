@@ -1,5 +1,7 @@
 package com.yanglinkui.ab.dsl.service;
 
+import com.yanglinkui.ab.dsl.*;
+import com.yanglinkui.ab.dsl.Number;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -21,15 +23,15 @@ public class TestServiceParser {
 
         Operation e = null;
         e = s.getOperation("s1.version");
-        Assert.assertEquals(e.getLeft().getId(), "s1.version");
+        Assert.assertEquals(e.getVariable().getId(), "s1.version");
         Assert.assertEquals(e.getValue().getValue(), new BigDecimal("1"));
 
         e = s.getOperation("s2.ip");
-        Assert.assertEquals(e.getLeft().getId(), "s2.ip");
+        Assert.assertEquals(e.getVariable().getId(), "s2.ip");
         Assert.assertEquals(e.getValue().getValue(), "192.168.100.1");
 
         e = s.getOperation("s3.version");
-        Assert.assertEquals(e.getLeft().getId(), "s3.version");
+        Assert.assertEquals(e.getVariable().getId(), "s3.version");
         Assert.assertEquals(e.getValue().getClass(), Array.class);
         Assert.assertEquals(((Array)e.getValue()).getValue().size(), 2);
 

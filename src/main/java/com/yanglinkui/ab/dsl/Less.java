@@ -1,4 +1,4 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
 import java.math.BigDecimal;
 
@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 public class Less extends Operation {
 
     public boolean interpret(Context context) {
-        String leftValue = left.getValue(context);
+        String leftValue = variable.getValue(context);
         return new BigDecimal(leftValue).compareTo(((Number)this.value).getValue()) < 0;
     }
 
     public String toString() {
-        return this.left.toString() + "<" + this.value.toString();
+        return this.variable.toString() + "<" + this.value.toString();
     }
 }

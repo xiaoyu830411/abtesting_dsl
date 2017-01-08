@@ -1,5 +1,9 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
+import com.yanglinkui.ab.dsl.Context;
+import com.yanglinkui.ab.dsl.Less;
+import com.yanglinkui.ab.dsl.Number;
+import com.yanglinkui.ab.dsl.Variable;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -20,7 +24,7 @@ public class TestLess {
         when(context.getValue(var)).thenReturn("1");
 
         Less g = new Less();
-        g.setLeft(var);
+        g.setVariable(var);
         g.setValue(new Number(new BigDecimal("1")));
         assertFalse("The s1.version is greater than 1,  or equals 1", g.interpret(context));
 

@@ -1,4 +1,4 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
 import java.lang.*;
 
@@ -8,7 +8,7 @@ import java.lang.*;
 public class Equal extends Operation {
 
     public boolean interpret(Context context) {
-        String leftValue = left.getValue(context);
+        String leftValue = variable.getValue(context);
         if (leftValue == null) {
             return false;
         }
@@ -29,6 +29,6 @@ public class Equal extends Operation {
     }
 
     public String toString() {
-        return this.left.toString() + "=" + this.value.toString();
+        return this.variable.toString() + "=" + this.value.toString();
     }
 }

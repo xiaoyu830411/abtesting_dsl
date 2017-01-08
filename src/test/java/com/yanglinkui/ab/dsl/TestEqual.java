@@ -1,5 +1,7 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
+import com.yanglinkui.ab.dsl.*;
+import com.yanglinkui.ab.dsl.Number;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -20,8 +22,8 @@ public class TestEqual {
         when(s1VersionContext.getValue(s1Version)).thenReturn("1.2");
 
         Equal equal = new Equal();
-        equal.setLeft(s1Version);
-        equal.setValue(new Number(new BigDecimal("1")));
+        equal.setVariable(s1Version);
+        equal.setValue(new com.yanglinkui.ab.dsl.Number(new BigDecimal("1")));
         assertFalse("The s1.version number equals 1", equal.interpret(s1VersionContext));
 
         equal.setValue(new Number(new BigDecimal("1.2")));
@@ -35,7 +37,7 @@ public class TestEqual {
         when(s1Ip.getValue(var)).thenReturn("192.168.10.1");
 
         Equal equal = new Equal();
-        equal.setLeft(var);
+        equal.setVariable(var);
         equal.setValue(new MyString("192.168.1.1"));
         assertFalse("The s1.ip (string) equals 192.168.1.1", equal.interpret(s1Ip));
 
@@ -50,7 +52,7 @@ public class TestEqual {
         when(s1Ip.getValue(var)).thenReturn("192.168.10.1");
 
         Equal equal = new Equal();
-        equal.setLeft(var);
+        equal.setVariable(var);
         HashSet<Value> list = new HashSet<Value>();
         list.add(new Number(new BigDecimal("4")));
         list.add(new MyString("192.168.1.1"));

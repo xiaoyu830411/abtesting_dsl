@@ -1,8 +1,6 @@
 package com.yanglinkui.ab.dsl.service;
 
-import com.yanglinkui.ab.dsl.Lexer;
-import com.yanglinkui.ab.dsl.Parser;
-import com.yanglinkui.ab.dsl.Token;
+import com.yanglinkui.ab.dsl.*;
 
 import java.lang.*;
 import java.math.BigDecimal;
@@ -27,16 +25,16 @@ public class ServiceParser extends Parser {
         Statements s = new Statements();
 
         Operation operation = expression();
-        s.putOperation(operation.getLeft().getId(), operation);
+        s.putOperation(operation.getVariable().getId(), operation);
 
         while (LA(1) == ServiceToken.TOKEN_COMMA) {
             consume();
 
             operation = expression();
-            if (s.getOperation(operation.getLeft().getId()) != null) {
-                throw new Error("The " + operation.getLeft().getId() + " is duplicate.");
+            if (s.getOperation(operation.getVariable().getId()) != null) {
+                throw new Error("The " + operation.getVariable().getId() + " is duplicate.");
             }
-            s.putOperation(operation.getLeft().getId(), operation);
+            s.putOperation(operation.getVariable().getId(), operation);
 
         }
 
@@ -48,7 +46,7 @@ public class ServiceParser extends Parser {
         Operation operation = op();
         Value value = value();
 
-        operation.setLeft(var);
+        operation.setVariable(var);
         operation.setValue(value);
 
         return operation;
@@ -117,7 +115,7 @@ public class ServiceParser extends Parser {
     Value element() {
         if (LA(1) == ServiceToken.TOKEN_NUMBER) {
             Token t = match(ServiceToken.TOKEN_NUMBER);
-            return new Number(new BigDecimal(t.getText()));
+            return new com.yanglinkui.ab.dsl.Number(new BigDecimal(t.getText()));
         } else {
             Token t = match(ServiceToken.TOKEN_STRING);
             return new MyString(t.getText());
@@ -130,7 +128,7 @@ public class ServiceParser extends Parser {
         ServiceParser p = new ServiceParser(l);
         Statements s = p.statements();
         Expression e = s.getOperation("s4.ip");
-        System.out.println(e.interpret(new Context() {
+        System.out.println(e.interpret(new ServiceContext() {
             public String getValue(Variable var) {
                 return "192.168.1.11";
             }

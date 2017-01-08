@@ -22,7 +22,7 @@ try {
     
     //获得操作
     Operation op = s.getOperation("s1.version");
-    boolean result = op.interpret(new Context() {
+    boolean result = op.interpret(new ServiceContext() {
         public String getValue(Variable var) {
             //通过自己的实现类返回 s1.version的值
         }
@@ -33,6 +33,6 @@ try {
 
 ```
 
-* Context 这个类要重点说一下，我们必须自己实现一个，主要是返回操作符左边的值（变量，例如s1.version)
+* ServiceContext 这个类要重点说一下，我们必须自己实现一个，主要是返回操作符左边的值（变量，例如s1.version)
 * 操作符 >, >=, <, <= 只能操作数字（可以是小数)
 

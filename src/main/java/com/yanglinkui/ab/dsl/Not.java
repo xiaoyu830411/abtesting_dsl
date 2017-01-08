@@ -1,4 +1,4 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
 /**
  * Created by jonas on 2017/1/3.
@@ -10,6 +10,6 @@ public class Not extends Equal {
     }
 
     public String toString() {
-        return this.left.toString() + "!=" + this.value.toString();
+        return this.variable.toString() + "!=" + this.value.toString();
     }
 }

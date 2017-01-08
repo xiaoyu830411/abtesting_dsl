@@ -1,4 +1,4 @@
-package com.yanglinkui.ab.dsl.service;
+package com.yanglinkui.ab.dsl;
 
 import java.math.BigDecimal;
 
