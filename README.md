@@ -17,6 +17,24 @@ condition 解析器
 
 * 使用
 ```java
+
+//实现一个Context
+public class RequestContext implements Context {
+    private final HttpServletRequest request;
+    
+    public RequestContext(HttpServletRequest request) {
+        this.request = request;
+    }
+    
+    public String getValue(Variable var) {
+        return request.getHeader(var.getId());
+    }
+    
+    public String getValue(Function function) {
+        //注册函数，其实可以使用Java8+的lambda 
+    }
+}
+
 //如果想代表所有的条件通杀，那么就是 * 就可以了
 //String condition = "*";
 String condition = "mod(user.id)>500 && (client.ip='192.168.10.1' || client.browser!=['safari'])"
@@ -27,24 +45,7 @@ try {
     Statements s = p.statements();
 
     //获得操作
-    boolean result = s.interpret(new Context() {
-        //实现这个类，返回变量mod函数, client.ip, client.browser的值
-        public String getValue(Variable var) {
-            if (var.getId().equals("client.ip")) {
-                return "192.168.10.1";
-            }
-
-            if (var.getId().equals("client.browser")) {
-                return "safari";
-            }
-
-            return null;
-        }
-
-        public String getValue(Function function) {
-            return "501";
-        }
-    })
+    boolean result = s.interpret(new RequestContext(request));
 } catch (Error e) {
     throw new Error("解析出错了", e);
 }
@@ -101,9 +102,7 @@ try {
     //获得操作
     Operation op = s.getOperation("s1.version");
     boolean result = op.interpret(new ServiceContext() {
-        public String getValue(Variable var) {
-            //通过自己的实现类返回 s1.version的值
-        }
+        //和Condition上面实现原理差不多
     })
 } catch (Error e) {
     throw new Error("解析出错了", e);
